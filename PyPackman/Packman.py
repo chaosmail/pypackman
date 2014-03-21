@@ -12,7 +12,6 @@ class Packman:
 
         cmd_python = 'python3'
         cmd_virtualenv = 'virtualenv'
-        cmd_source = 'source'
 
         ve_python = 'python3'
         ve_cmd_python = 'python3'
@@ -21,7 +20,6 @@ class Packman:
         app_name = ''
         app_version = ''
 
-        activate = False
         version = '0.0.1'
         requirements = False
         verbose = False
@@ -31,7 +29,7 @@ class Packman:
         def is_valid():
 
             if not os.path.isfile(Packman.setup_file_name):
-                print("No setup.py file found. Aborting PyPackman.")
+                print("No setup.py file found. Aborting Packman.")
                 exit()
 
         @staticmethod
@@ -56,8 +54,6 @@ class Packman:
                     Packman.output = arg
                 elif opt in ('-r', '--requirements'):
                     Packman.requirements = True
-                elif opt in ('-a', '--activate'):
-                    Packman.activate = True
                 elif opt in ('-v', '--verbose'):
                     Packman.verbose = True
                 elif opt == '--version':
@@ -93,16 +89,20 @@ class Packman:
 
             cmd_python = Packman.get_dir() + '/bin/' + Packman.ve_cmd_python
             cmd_pip = Packman.get_dir() + '/bin/' + Packman.ve_cmd_pip
-            cmd_activate = Packman.get_dir() + '/bin/activate'
 
             # Install Virtual Environment
-            call([Packman.cmd_virtualenv, '--no-site-packages', '--python', Packman.ve_python, Packman.get_dir()])
+            print("** PACKMAN **")
+            print("Running CMD:", Packman.cmd_virtualenv,
+                  '--distribute', '--no-site-packages',
+                  '--python', Packman.ve_python, Packman.get_dir())
+            call([Packman.cmd_virtualenv, '--distribute', '--no-site-packages', '--python', Packman.ve_python, Packman.get_dir()])
 
             if Packman.has_requirements():
+                print("** PACKMAN **")
+                print("Running CMD:", cmd_pip, 'install', '-r', Packman.requirements_file_name)
                 call([cmd_pip, 'install', '-r', Packman.requirements_file_name])
 
             # Install the application
+            print("** PACKMAN **")
+            print("Running CMD:", cmd_pip, 'install', '.', '--upgrade')
             call([cmd_pip, 'install', '.', '--upgrade'])
-
-            if Packman.activate:
-                call([Packman.cmd_source, cmd_activate])
