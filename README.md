@@ -1,9 +1,15 @@
 # PyPackman
 
-Helper tool to generate virtual environments for applications.
+Helper tool to generate packed environments for applications.
 
+Create virtual environment for developing
 ```
 packman
+```
+
+Create full python environment for production
+```
+packman --package
 ```
 
 ## Development

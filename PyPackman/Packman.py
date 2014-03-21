@@ -130,10 +130,10 @@ class Packman:
                 shutil.rmtree(Packman.get_python_dir())
 
             print("** PACKMAN **")
-            print("Running CMD:", Packman.cmd_virtualenv,
-                  '--distribute', '--no-site-packages',
-                  '--python', Packman.ve_python, Packman.get_dir())
-            call([Packman.cmd_virtualenv, '--no-site-packages', '--python', Packman.ve_python, Packman.get_python_dir()])
+            print("Running CMD:", Packman.cmd_virtualenv, '--no-site-packages', '--python', Packman.ve_cmd_python,
+                  Packman.get_python_dir())
+            call([Packman.cmd_virtualenv, '--no-site-packages', '--python', Packman.ve_cmd_python,
+                  Packman.get_python_dir()])
 
         @staticmethod
         def include_python_environment():
@@ -221,7 +221,7 @@ class Packman:
 
             # Clear the output directory
             if Packman.clear_target and os.path.isdir(Packman.get_dir()):
-                os.rmdir(Packman.get_dir())
+                shutil.rmtree(Packman.get_dir())
 
             # Create output directory
             if not os.path.isdir(Packman.get_dir()):
